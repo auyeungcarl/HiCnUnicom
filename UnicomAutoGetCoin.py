@@ -76,7 +76,7 @@ if __name__ == '__main__':
     user = Qiandao()
 
     timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
+    #TODO
     data = timestamp+"这部分自己按要求抓包提取"
 
     user.sign(data)

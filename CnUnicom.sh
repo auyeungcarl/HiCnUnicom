@@ -25,7 +25,7 @@ workdirbase="/tmp/log/CnUnicom"
 echo ${all_parameter[*]} | grep -qE "githubaction" && workdirbase="$(pwd)/CnUnicom"
 
 # 联通APP版本
-unicom_version=8.0200
+unicom_version=8.0300
 
 #####
 ## 流量激活功能需要传入参数,中间d表示每天,w表示每周一,m代表每月第一天和第二天,格式： liulactive@d@ff80808166c5ee6701676ce21fd14716
@@ -175,8 +175,8 @@ function membercenter() {
     # 三次金币抽奖， 每日最多可花费金币执行十三次
     echo && echo
     usernumberofjsp=$(curl -m 10 -sA "$UA" -b $workdir/cookie https://m.client.10010.com/dailylottery/static/textdl/userLogin | grep -oE "encryptmobile=\w*" | awk -F"encryptmobile=" '{print $2}'| head -n1)
-    for ((i = 1; i <= 3; i++)); do
-        [[ $i -gt 3 ]] && curl -m 10 -sA "$UA" -b $workdir/cookie --data "goldnumber=10&banrate=10&usernumberofjsp=$usernumberofjsp" https://m.client.10010.com/dailylottery/static/doubleball/duihuan >/dev/null; sleep 1
+    for ((i = 1; i <= 13; i++)); do
+        [[ $i -gt 3 ]] && curl -m 10 -sA "$UA" -b $workdir/cookie --data "goldnumber=10&banrate=10&usernumberofjsp=$usernumberofjsp" https://m.client.10010.com/dailylottery/static/doubleball/duihuan >/dev/null; sleep 5
         curl -m 10 -sA "$UA" -b $workdir/cookie --data "usernumberofjsp=$usernumberofjsp&flag=convert" https://m.client.10010.com/dailylottery/static/doubleball/choujiang | grep -oE "用户机会次数不足" && break
     done
     curl -m 10 -X POST -sA "$UA" -b $workdir/cookie -e "$Referer" "https://act.10010.com/SigninApp/signin/getGoldTotal?vesion=0.$(shuf -i 1234567890123456-9876543210654321 -n 1)" | grep -oE "goldTotal\":\"[0-9]+"
@@ -186,8 +186,8 @@ function membercenter() {
     curl -m 10 -X POST -sLA "$UA" -b $workdir/cookie --data "from=$(shuf -i 12345678901-98765432101 -n 1)" "https://m.client.10010.com/welfare-mall-front/mobile/winterTwo/getIntegral/v1"
     echo && echo
     curl -m 10 -X POST -sA "$UA" -b $workdir/cookie --data "usernumberofjsp=$usernumberofjsp&flag=convert" http://m.client.10010.com/dailylottery/static/integral/choujiang
-    for ((i = 1; i <= 0; i++)); do
-        curl -m 10 -sA "$UA" -b $workdir/cookie --data "goldnumber=10&banrate=30&usernumberofjsp=$usernumberofjsp" http://m.client.10010.com/dailylottery/static/integral/duihuan >/dev/null; sleep 1
+    for ((i = 1; i <= 30; i++)); do
+        curl -m 10 -sA "$UA" -b $workdir/cookie --data "goldnumber=10&banrate=30&usernumberofjsp=$usernumberofjsp" http://m.client.10010.com/dailylottery/static/integral/duihuan >/dev/null; sleep 5
         curl -m 10 -X POST -sA "$UA" -b $workdir/cookie --data "usernumberofjsp=$usernumberofjsp&flag=convert" http://m.client.10010.com/dailylottery/static/integral/choujiang | grep -oE "用户机会次数不足" && break
     done
     
@@ -205,25 +205,25 @@ function membercenter() {
     
     # 游戏宝箱
     echo && echo
-    curl -m 10 -X POST -sA "$UA" -b $workdir/cookie --data "methodType=reward&deviceType=Android&clientVersion=$unicom_version&isVideo=N" https://m.client.10010.com/game_box; sleep 3
+    curl -m 10 -X POST -sA "$UA" -b $workdir/cookie --data "methodType=reward&deviceType=Android&clientVersion=$unicom_version&isVideo=N" https://m.client.10010.com/game_box; sleep 5
     echo && echo
-    curl -m 10 -sA "$UA" -b $workdir/cookie --data "methodType=taskGetReward&taskCenterId=187&clientVersion=$unicom_version&deviceType=Android" https://m.client.10010.com/producGameTaskCenter; sleep 3
+    curl -m 10 -sA "$UA" -b $workdir/cookie --data "methodType=taskGetReward&taskCenterId=187&clientVersion=$unicom_version&deviceType=Android" https://m.client.10010.com/producGameTaskCenter; sleep 5
     echo && echo
-    curl -m 10 -X POST -sA "$UA" -b $workdir/cookie --data "methodType=reward&deviceType=Android&clientVersion=$unicom_version&isVideo=Y" https://m.client.10010.com/game_box; sleep 3
+    curl -m 10 -X POST -sA "$UA" -b $workdir/cookie --data "methodType=reward&deviceType=Android&clientVersion=$unicom_version&isVideo=Y" https://m.client.10010.com/game_box; sleep 5
     
     # 沃之树浇水，免费一次，服务器经常502错误，所以请求三次
     echo && echo
-    for ((i = 1; i <= 3; i++)); do sleep 3 && curl -m 10 -X POST -sA "$UA" -b $workdir/cookie -e "https://img.client.10010.com/mactivity/woTree/index.html" https://m.client.10010.com/mactivity/arbordayJson/arbor/3/0/3/grow.htm | grep -oE "addedValue\":[0-9]" && break; done
+    for ((i = 1; i <= 5; i++)); do sleep 5 && curl -m 10 -X POST -sA "$UA" -b $workdir/cookie -e "https://img.client.10010.com/mactivity/woTree/index.html" https://m.client.10010.com/mactivity/arbordayJson/arbor/3/0/3/grow.htm | grep -oE "addedValue\":[0-9]" && break; done
     
     # 获得流量
     echo && echo
-    for ((i = 1; i <= 3; i++)); do
-        curl -m 10 -X POST -sA "$UA" -b $workdir/cookie --data "stepflag=22" https://act.10010.com/SigninApp/mySignin/addFlow >/dev/null; sleep 3
+    for ((i = 1; i <= 5; i++)); do
+        curl -m 10 -X POST -sA "$UA" -b $workdir/cookie --data "stepflag=22" https://act.10010.com/SigninApp/mySignin/addFlow >/dev/null; sleep 5
         curl -m 10 -X POST -sA "$UA" -b $workdir/cookie --data "stepflag=23" https://act.10010.com/SigninApp/mySignin/addFlow | grep -oE "reason\":\"01" && break
     done
 
     if [ $u == $((${#all_username_password[*]}-1)) ]; then
-            break
+            echo "all_username_password" + $((${#all_username_password[*]}  + "done.";
         else
             sleep 70
     fi

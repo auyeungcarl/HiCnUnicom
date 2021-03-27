@@ -175,7 +175,7 @@ function membercenter() {
     # 三次金币抽奖， 每日最多可花费金币执行十三次
     echo && echo
     usernumberofjsp=$(curl -m 10 -sA "$UA" -b $workdir/cookie https://m.client.10010.com/dailylottery/static/textdl/userLogin | grep -oE "encryptmobile=\w*" | awk -F"encryptmobile=" '{print $2}'| head -n1)
-    for ((i = 1; i <= 13; i++)); do
+    for ((i = 1; i <= 3; i++)); do
         [[ $i -gt 3 ]] && curl -m 10 -sA "$UA" -b $workdir/cookie --data "goldnumber=10&banrate=10&usernumberofjsp=$usernumberofjsp" https://m.client.10010.com/dailylottery/static/doubleball/duihuan >/dev/null; sleep 5
         curl -m 10 -sA "$UA" -b $workdir/cookie --data "usernumberofjsp=$usernumberofjsp&flag=convert" https://m.client.10010.com/dailylottery/static/doubleball/choujiang | grep -oE "用户机会次数不足" && break
     done
@@ -186,7 +186,7 @@ function membercenter() {
     curl -m 10 -X POST -sLA "$UA" -b $workdir/cookie --data "from=$(shuf -i 12345678901-98765432101 -n 1)" "https://m.client.10010.com/welfare-mall-front/mobile/winterTwo/getIntegral/v1"
     echo && echo
     curl -m 10 -X POST -sA "$UA" -b $workdir/cookie --data "usernumberofjsp=$usernumberofjsp&flag=convert" http://m.client.10010.com/dailylottery/static/integral/choujiang
-    for ((i = 1; i <= 30; i++)); do
+    for ((i = 1; i <= 1; i++)); do
         curl -m 10 -sA "$UA" -b $workdir/cookie --data "goldnumber=10&banrate=30&usernumberofjsp=$usernumberofjsp" http://m.client.10010.com/dailylottery/static/integral/duihuan >/dev/null; sleep 5
         curl -m 10 -X POST -sA "$UA" -b $workdir/cookie --data "usernumberofjsp=$usernumberofjsp&flag=convert" http://m.client.10010.com/dailylottery/static/integral/choujiang | grep -oE "用户机会次数不足" && break
     done

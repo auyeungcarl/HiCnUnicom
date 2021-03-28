@@ -225,7 +225,7 @@ function membercenter() {
     done
 
     if [ $u == $((${#all_username_password[*]}-1)) ]; then
-            echo "all_username_password" + $((${#all_username_password[*]}  + "done.";
+            echo "all_username_password" + $((${#all_username_password[*]}-1))  + "done.";
         else
             sleep 70
     fi
